@@ -1,0 +1,46 @@
+services:
+  api-a:
+    image: nginx:1.27-alpine
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8081:80"
+    volumes:
+      - ./www/api-a:/usr/share/nginx/html:ro
+    networks:
+      - appnet
+
+  api-b:
+    image: nginx:1.27-alpine
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8082:80"
+    volumes:
+      - ./www/api-b:/usr/share/nginx/html:ro
+    networks:
+      - appnet
+
+  ziti-host:
+    image: docker.io/openziti/ziti-host:1.17.1
+    restart: unless-stopped
+    environment:
+      - ZITI_ENROLL_TOKEN
+    volumes:
+      - ziti_host_identity:/ziti-edge-tunnel
+    networks:
+      - quickstart
+      - appnet
+    depends_on:
+      quickstart:
+        condition: service_healthy
+      api-a:
+        condition: service_started
+      api-b:
+        condition: service_started
+
+networks:
+  appnet:
+    driver: bridge
+
+volumes:
+  ziti_host_identity:
+    driver: local

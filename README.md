@@ -50,3 +50,7 @@ Preservar o estado existente do ambiente:
 ```bash
 RESET_LAB=0 ./executar-site.sh
 ```
+
+## Solução de problemas
+
+Em caso de erro ou dificuldade durante a instalação ou execução, consulte o manual do projeto `MANUAL.MD` antes de realizar alterações no ambiente.

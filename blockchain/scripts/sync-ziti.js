@@ -9,7 +9,7 @@ const COMPOSE_LAB = path.join(LAB_ROOT, 'compose.lab.yml');
 const IDENTITY = process.env.ZITI_IDENTITY || 'wallet-user';
 const ZITI_USER = process.env.ZITI_USER || 'admin';
 const ZITI_PWD = process.env.ZITI_PWD || 'admin';
-const CTRL = process.env.ZITI_CTRL || 'ziti-controller:1280';
+const CTRL = process.env.ZITI_CTRL || 'quickstart:1280';
 
 for (const value of [IDENTITY, ZITI_USER]) {
   if (!/^[A-Za-z0-9_.@-]+$/.test(value)) {

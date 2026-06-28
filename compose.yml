@@ -4,8 +4,6 @@ services:
     restart: unless-stopped
     networks:
       quickstart:
-        # this allows other containers to use the same external DNS name to reach the quickstart container from within the
-        # Docker network that clients outside the Docker network use to reach the quickstart container via port forwarding
         aliases:
           - ${ZITI_CTRL_ADVERTISED_ADDRESS:-ziti-controller}
           - ${ZITI_ROUTER_ADVERTISED_ADDRESS:-ziti-router}
@@ -26,8 +24,6 @@ services:
       PFXLOG_NO_JSON: "${PFXLOG_NO_JSON:-true}"
       ZITI_ROUTER_NAME: ${ZITI_ROUTER_NAME:-quickstart-router}
     volumes:
-      # store the quickstart state in a named volume "ziti_home" or store the quickstart state on the Docker host in a
-      # directory, ZITI_HOME 
       - ${ZITI_HOME:-ziti_home}:/home/ziggy
     ports:
       - ${ZITI_INTERFACE:-0.0.0.0}:${ZITI_CTRL_ADVERTISED_PORT:-1280}:${ZITI_CTRL_ADVERTISED_PORT:-1280}
@@ -49,18 +45,13 @@ services:
       retries: 5
       start_period: 30s
 
-  # this service is used to initialize the ziti_home volume by setting the owner to the UID of the user running the
-  # quickstart container
   quickstart-init:
     image: busybox
     command: chown -Rc ${ZIGGY_UID:-1000} /home/ziggy
     user: root
     volumes:
-      # store the quickstart state in a named volume "ziti_home" or store the quickstart state on the Docker host in a
-      # directory, ZITI_HOME 
       - ${ZITI_HOME:-ziti_home}:/home/ziggy
 
-  # add a health check for the quickstart network
   quickstart-check:
     image: busybox
     command: echo "Ziti is cooking"
@@ -68,12 +59,10 @@ services:
       quickstart:
         condition: service_healthy
 
-# define a custom network so that we can also define a DNS alias for the quickstart container
 networks:
   quickstart:
     driver: bridge
 
 volumes:
-  # this will not be used if you switch from named volume to bind mount volume
   ziti_home:
     driver: local

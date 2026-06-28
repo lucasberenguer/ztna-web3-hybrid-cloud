@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Painel ZTNA + Web3</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="ambient ambient-one"></div>
+  <div class="ambient ambient-two"></div>
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">ZT</div>
+      <div>
+        <p class="eyebrow">PAINEL DE CONTROLE</p>
+        <h1>ZTNA + Web3 em Nuvem Híbrida</h1>
+      </div>
+    </div>
+    <div class="top-actions">
+      <div class="live-pill"><span class="live-dot"></span> AMBIENTE ATIVO</div>
+      <button class="icon-button" id="fullscreenButton" title="Tela cheia" aria-label="Tela cheia">⛶</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="hero-panel panel">
+      <div class="hero-copy">
+        <div class="status-line">
+          <span id="phaseBadge" class="phase-badge">PRONTO</span>
+          <span id="activeAction" class="active-action"></span>
+        </div>
+        <h2 id="headline">Ambiente ZTNA + Web3 pronto</h2>
+        <p id="message">Selecione uma operação no painel de controle.</p>
+      </div>
+
+      <div id="architecture" class="architecture mode-idle">
+        <div class="network-label public-label">ORIGEM</div>
+        <div class="network-label control-label">PLANO DE CONTROLE</div>
+        <div class="network-label hybrid-label">NUVEM HÍBRIDA</div>
+
+        <article class="node client-node" data-node="client">
+          <div class="node-icon">◉</div>
+          <div>
+            <small>CLIENTE</small>
+            <strong>Carteira Web3</strong>
+            <span id="walletShort">—</span>
+          </div>
+          <div id="walletStatus" class="node-status neutral">SEM ESTADO</div>
+        </article>
+
+        <article class="node pep-node" data-node="pep">
+          <div class="node-icon">◆</div>
+          <div>
+            <small>POLICY ENFORCEMENT POINT</small>
+            <strong>Gateway ZTNA</strong>
+            <span>Interceptação e mTLS</span>
+          </div>
+          <div id="tunnelStatus" class="node-status neutral">VERIFICANDO</div>
+        </article>
+
+        <article class="node pdp-node" data-node="pdp">
+          <div class="node-icon">◎</div>
+          <div>
+            <small>POLICY DECISION POINT</small>
+            <strong>Decisão contextual</strong>
+            <span id="zitiRole">wallet-revoked</span>
+          </div>
+          <div id="controllerStatus" class="node-status neutral">VERIFICANDO</div>
+        </article>
+
+        <article class="node chain-node" data-node="chain">
+          <div class="node-icon">⬡</div>
+          <div>
+            <small>BLOCKCHAIN LOCAL</small>
+            <strong>AccessRegistry</strong>
+            <span id="contractShort">—</span>
+          </div>
+          <div id="blockchainStatus" class="node-status neutral">VERIFICANDO</div>
+        </article>
+
+        <article class="node api-node api-a-node" data-node="api-a">
+          <div class="node-icon">A</div>
+          <div>
+            <small>NUVEM PRIVADA</small>
+            <strong>API A</strong>
+            <span>Serviço autorizado</span>
+          </div>
+          <div id="apiAAccess" class="node-status neutral">NÃO TESTADO</div>
+        </article>
+
+        <article class="node api-node api-b-node" data-node="api-b">
+          <div class="node-icon">B</div>
+          <div>
+            <small>NUVEM PÚBLICA</small>
+            <strong>API B</strong>
+            <span>Serviço lateral</span>
+          </div>
+          <div id="apiBAccess" class="node-status neutral">NÃO TESTADO</div>
+        </article>
+
+        <div class="edge edge-client-pep"><span></span></div>
+        <div class="edge edge-pep-pdp"><span></span></div>
+        <div class="edge edge-pdp-chain"><span></span></div>
+        <div class="edge edge-pdp-a"><span></span></div>
+        <div class="edge edge-pdp-b"><span></span></div>
+        <svg class="baseline-svg" viewBox="0 0 1000 470" preserveAspectRatio="none" aria-hidden="true">
+          <path class="baseline-path baseline-path-a" d="M170,232 C300,120 615,92 825,130"></path>
+          <path class="baseline-path baseline-path-b" d="M170,252 C320,392 620,404 825,350"></path>
+        </svg>
+        <div class="baseline-label baseline-label-a">Baseline → API A · porta 8081</div>
+        <div class="baseline-label baseline-label-b">Baseline → API B · porta 8082</div>
+
+        <div id="decisionA" class="decision decision-a">✓</div>
+        <div id="decisionB" class="decision decision-b">×</div>
+      </div>
+
+      <div id="routeBoard" class="route-board">
+        <article id="routeBaselineA" class="route-card">
+          <small>BASELINE</small>
+          <strong>Cliente → API A</strong>
+          <span id="routeBaselineAText">Exposição direta pela porta 8081</span>
+          <div id="routeBaselineABadge" class="route-badge neutral">NÃO TESTADO</div>
+        </article>
+        <article id="routeBaselineB" class="route-card">
+          <small>BASELINE</small>
+          <strong>Cliente → API B</strong>
+          <span id="routeBaselineBText">Exposição direta pela porta 8082</span>
+          <div id="routeBaselineBBadge" class="route-badge neutral">NÃO TESTADO</div>
+        </article>
+        <article id="routeZtnaA" class="route-card">
+          <small>ZTNA</small>
+          <strong>Carteira → API A</strong>
+          <span id="routeZtnaAText">Acesso controlado por identidade e contexto</span>
+          <div id="routeZtnaABadge" class="route-badge neutral">NÃO TESTADO</div>
+        </article>
+        <article id="routeZtnaB" class="route-card">
+          <small>ZTNA</small>
+          <strong>Carteira → API B</strong>
+          <span id="routeZtnaBText">Movimento lateral deve permanecer bloqueado</span>
+          <div id="routeZtnaBBadge" class="route-badge neutral">NÃO TESTADO</div>
+        </article>
+      </div>
+
+      <div class="principles">
+        <div><span>01</span><strong>Verificação explícita</strong></div>
+        <div><span>02</span><strong>Privilégio mínimo</strong></div>
+        <div><span>03</span><strong>Assumir violação</strong></div>
+      </div>
+    </section>
+
+    <aside class="control-panel panel">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">CONTROLES</p>
+          <h3>Operações</h3>
+        </div>
+        <div id="busySpinner" class="spinner" hidden></div>
+      </div>
+
+      <button class="primary-action" data-action="full-run">
+        <span class="button-number">▶</span>
+        <span><strong>Executar fluxo completo</strong><small>Executa todas as verificações em sequência</small></span>
+      </button>
+
+      <div class="scenario-grid">
+        <button class="scenario-button danger-action" data-action="baseline">
+          <span>1</span>
+          <strong>Verificar baseline</strong>
+          <small>APIs expostas pela rede</small>
+        </button>
+        <button class="scenario-button success-action" data-action="authorize">
+          <span>2</span>
+          <strong>Autorizar carteira</strong>
+          <small>API A liberada, API B bloqueada</small>
+        </button>
+        <button class="scenario-button warning-action" data-action="revoke">
+          <span>3</span>
+          <strong>Revogar carteira</strong>
+          <small>Acesso removido dinamicamente</small>
+        </button>
+        <button class="scenario-button metric-action" data-action="benchmark">
+          <span>4</span>
+          <strong>Benchmark rápido</strong>
+          <small>Latência e vazão locais</small>
+        </button>
+      </div>
+
+      <div class="component-block">
+        <p class="eyebrow">COMPONENTES</p>
+        <div class="component-list">
+          <div><span class="component-dot" id="dot-controller"></span><span>OpenZiti Controller</span><strong id="text-controller">—</strong></div>
+          <div><span class="component-dot" id="dot-tunnel"></span><span>Cliente ZTNA</span><strong id="text-tunnel">—</strong></div>
+          <div><span class="component-dot" id="dot-blockchain"></span><span>Blockchain Hardhat</span><strong id="text-blockchain">—</strong></div>
+          <div><span class="component-dot" id="dot-apiA"></span><span>API A</span><strong id="text-apiA">—</strong></div>
+          <div><span class="component-dot" id="dot-apiB"></span><span>API B</span><strong id="text-apiB">—</strong></div>
+        </div>
+      </div>
+
+      <div class="tx-card">
+        <div>
+          <p class="eyebrow">ÚLTIMA TRANSAÇÃO</p>
+          <strong id="txHash">Nenhuma transação</strong>
+        </div>
+        <div class="tx-meta"><span>Bloco</span><strong id="blockNumber">—</strong></div>
+      </div>
+    </aside>
+
+    <section class="metrics-panel panel">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">MÉTRICAS AO VIVO</p>
+          <h3>Impacto operacional</h3>
+        </div>
+        <span class="status-tag">MEDIÇÃO LOCAL</span>
+      </div>
+      <div class="metric-cards">
+        <article class="metric-card">
+          <span>CPU Docker</span>
+          <strong id="dockerCpu">—</strong>
+          <small>uso agregado</small>
+        </article>
+        <article class="metric-card">
+          <span>Memória</span>
+          <strong id="dockerMemory">—</strong>
+          <small id="containerCount">0 contêineres</small>
+        </article>
+        <article class="metric-card baseline-metric">
+          <span>Baseline p95</span>
+          <strong id="baselineP95">—</strong>
+          <small id="baselineRps">execute o benchmark</small>
+        </article>
+        <article class="metric-card ztna-metric">
+          <span>ZTNA p95</span>
+          <strong id="ztnaP95">—</strong>
+          <small id="ztnaRps">execute o benchmark</small>
+        </article>
+      </div>
+      <div class="comparison" id="comparison">
+        <div class="comparison-row">
+          <span>Baseline</span>
+          <div class="bar-track"><div id="baselineBar" class="bar baseline-bar"></div></div>
+          <strong id="baselineBarValue">—</strong>
+        </div>
+        <div class="comparison-row">
+          <span>ZTNA</span>
+          <div class="bar-track"><div id="ztnaBar" class="bar ztna-bar"></div></div>
+          <strong id="ztnaBarValue">—</strong>
+        </div>
+      </div>
+    </section>
+
+    <section class="timeline-panel panel">
+      <div class="section-heading timeline-heading">
+        <div>
+          <p class="eyebrow">EVENTOS</p>
+          <h3>Linha do tempo da execução</h3>
+        </div>
+        <button class="text-button" data-action="clear">Limpar eventos</button>
+      </div>
+      <div id="timeline" class="timeline">
+        <div class="empty-state">Os eventos da execução aparecerão aqui.</div>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status"></div>
+  <script src="/app.js"></script>
+</body>
+</html>

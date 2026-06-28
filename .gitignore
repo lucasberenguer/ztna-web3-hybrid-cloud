@@ -1,0 +1,6 @@
+blockchain/node_modules/
+blockchain/deployment.json
+identities/*.jwt
+identities/*.json
+results/*
+!results/.gitkeep
